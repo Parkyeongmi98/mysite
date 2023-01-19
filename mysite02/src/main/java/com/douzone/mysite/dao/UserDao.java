@@ -151,19 +151,27 @@ public class UserDao {
 		try {
 			conn = getConnection();
 			
-			// 3. Statement 준비
-			String sql = "update user set name = ?, password = password(?), gender = ? where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getGender());
-			pstmt.setLong(4, vo.getNo());
-			
+			if ("".equals(vo.getPassword())) {
+				// 3. Statement 준비
+				String sql = "update user set name = ?, gender = ? where no = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getGender());
+				pstmt.setLong(3, vo.getNo());
+			} else {
+				// 3. Statement 준비
+				String sql = "update user set name = ?, password = password(?), gender = ? where no = ?";
+				pstmt = conn.prepareStatement(sql);
+	
+				
+				pstmt.setString(1, vo.getName());
+				pstmt.setString(2, vo.getPassword());
+				pstmt.setString(3, vo.getGender());
+				pstmt.setLong(4, vo.getNo());
+			}
 			// 5. SQL 실행
 			pstmt.executeUpdate();
-
 			
 		} catch (SQLException e) {
 			System.out.println("error: " + e);;

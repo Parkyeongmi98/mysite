@@ -11,3 +11,8 @@ select * from user;
 
 -- join
 insert into user values(null, '박영미', 'yeongmi_@naver.com', password('1234'), 'female', now());
+
+-- login
+select no, name from user where email='yeongmi_@naver.com' and password = password('1234');
+
+
