@@ -26,7 +26,6 @@ public class AddAction implements Action {
 			
 		new GuestbookDao().insert(vo);
 		
-		System.out.println(vo);
 		MvcUtil.redirect(request.getContextPath() + "/guestbook", request, response);
 			
 	} 
