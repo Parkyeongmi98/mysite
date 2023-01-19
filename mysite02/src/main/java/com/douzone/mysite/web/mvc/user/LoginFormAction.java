@@ -9,12 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class JoinSuccessAction implements Action {
+public class LoginFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MvcUtil.forward("user/joinsuccess", request, response);
-
+		MvcUtil.forward("user/loginform", request, response);
 	}
 
 }

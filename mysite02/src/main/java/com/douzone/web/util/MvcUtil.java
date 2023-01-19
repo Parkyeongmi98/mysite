@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class WebUtil {
+public class MvcUtil {
 	public static void forward(
 			String viewName,
 			HttpServletRequest request,
@@ -16,5 +16,13 @@ public class WebUtil {
 			.getRequestDispatcher("/WEB-INF/views/" + viewName + ".jsp")
 			.forward(request, response);
 
+	}
+	
+	public static void redirect(
+			String url,
+			HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+			
+		response.sendRedirect(url);
 	}
 }
