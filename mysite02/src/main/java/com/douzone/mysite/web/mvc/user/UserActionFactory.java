@@ -1,8 +1,8 @@
 package com.douzone.mysite.web.mvc.user;
 
 import com.douzone.mysite.web.mvc.main.MainAction;
-import com.douzone.web.mvc.Action;
-import com.douzone.web.mvc.ActionFactory;
+import com.douzone.web2.mvc.Action;
+import com.douzone.web2.mvc.ActionFactory;
 
 public class UserActionFactory extends ActionFactory {
 
