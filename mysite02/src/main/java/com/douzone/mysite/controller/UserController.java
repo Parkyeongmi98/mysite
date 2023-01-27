@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.web.mvc.user.UserActionFactory;
-import com.douzone.web2.mvc.Action;
-import com.douzone.web2.mvc.ActionFactory;
+import com.douzone.web.mvc.Action;
+import com.douzone.web.mvc.ActionFactory;
 
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
