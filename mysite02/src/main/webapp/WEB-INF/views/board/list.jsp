@@ -15,8 +15,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
+					<input type="text" id="kwd" name="kwd" value="${kwd }">
 					<input type="submit" value="찾기">
 				</form>
 				<c:set var="count" value="${fn:length(list) }" />
@@ -32,13 +32,20 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">			
 					<tr>
 						<td>[${count - status.index }]</td>
-						<td style="text-align:left; padding-left:0px">
+						<td style="text-align:left; padding-left: ${vo.depth*10 }px; ">
+							<c:if test="${vo.depth != 0 }">
+								<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png">
+							</c:if>
 							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
 						</td>
 						<td>${vo.userName }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
-						<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
+						<td>
+							<c:if test="${authUser.name == vo.userName}">
+								<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a>
+							</c:if>
+						</td>
 					</tr>
 					</c:forEach>
 				</table>
@@ -56,10 +63,11 @@
 					</ul>
 				</div>					
 				<!-- pager 추가 -->
-				
-				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
-				</div>				
+				<c:if test="${not empty authUser }">
+					<div class="bottom">
+						<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					</div>
+				</c:if>	
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"></c:import>

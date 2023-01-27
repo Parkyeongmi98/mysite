@@ -21,10 +21,10 @@ public class BoardDao {
 			conn = getConnection();
 			
 			// 3. Statement 준비
-			String sql = "select a.no, a.title, a.hit, date_format(a.reg_date, '%Y-%m-%d %H:%i:%s'), b.name" 
+			String sql = "select a.no, a.title, a.hit, date_format(a.reg_date, '%Y-%m-%d %H:%i:%s'), b.name, a.depth" 
 			+ " from board a, user b" 
 			+ " where a.user_no = b.no"
-			+ " order by a.no";
+			+ " order by a.g_no desc, a.o_no asc";
 			pstmt = conn.prepareStatement(sql);
 			
 			
@@ -39,6 +39,7 @@ public class BoardDao {
 				vo.setHit(rs.getLong(3));
 				vo.setRegDate(rs.getString(4));
 				vo.setUserName(rs.getString(5));
+				vo.setDepth(rs.getLong(6));
 
 				result.add(vo);
 			}
@@ -119,32 +120,86 @@ public class BoardDao {
 	public void insert(BoardVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement selectpstmt = null;
+		PreparedStatement updatepstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		String select_sql = null;
+		String update_sql = null;
+		int g_no = 0;
+		int o_no = 0;
+		int depth = 0;
 		
 		try {
 			conn = getConnection();
 			
-			// 3. Statement 준비
-			String sql = "insert into board values(null, ?, ?, ?, sysdate(), ?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
+			// 새로운 글쓰기
+			if(vo.getNo() == 0) {
+				// 3. Statement 준비
+				sql = "insert into board (title, contents, hit, reg_date, g_no, o_no, depth, user_no)"
+					+ " select ?, ?, 0, now(), ifnull(max(g_no), 0) + 1, 1, 0, ?"
+					+ " from board";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContents());
+				pstmt.setLong(3, vo.getUserNo());
+		
+				// 4. SQL 실행
+				pstmt.executeUpdate();
+				
+				// 댓글 쓰기
+			} else {
+				// 부모 글의 g_no, o_no, depth 찾기
+				select_sql = "select g_no, o_no, depth from board where no = ?";
+				selectpstmt = conn.prepareStatement(select_sql);
+				
+				selectpstmt.setLong(1, vo.getNo());
+				rs = selectpstmt.executeQuery();
 			
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getHit());
-			pstmt.setLong(4, vo.getGroupNo());
-			pstmt.setLong(5, vo.getOrderNo());
-			pstmt.setLong(6, vo.getDepth());
-			pstmt.setLong(7, vo.getUserNo());
+				if(rs.next()) {
+					g_no =rs.getInt(1);
+					o_no =rs.getInt(2) + 1;
+					depth =rs.getInt(3) + 1;
+				}
+				
+				//update
+				update_sql="update board set o_no = o_no + 1 where g_no = ? and o_no >= ?";
+				updatepstmt = conn.prepareStatement(update_sql);
+				
+				updatepstmt.setInt(1, g_no);
+				updatepstmt.setInt(2, o_no);
+				updatepstmt.executeQuery();
+				
+				//insert
+				sql = "insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no)"
+					+ " values(?, ?, 0, now(), ?, ?, ?, ?)";
+				pstmt = conn.prepareStatement(sql);
+					
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContents());
+				pstmt.setInt(3, g_no);
+				pstmt.setInt(4, o_no);
+				pstmt.setInt(5, depth);
+				pstmt.setLong(6, vo.getUserNo());
+				pstmt.executeQuery();
 
-	
-			// 4. SQL 실행
-			pstmt.executeUpdate();
-			
+			}
 		} catch (SQLException e) {
 			System.out.println("error: " + e);;
 		} finally {
 			try {
 				if (pstmt != null) {
 					pstmt.close();
+				}
+				if (selectpstmt != null) {
+					selectpstmt.close();
+				}
+				if (updatepstmt != null) {
+					updatepstmt.close();
+				}
+				if (rs != null) {
+					rs.close();
 				}
 				if (conn != null) {
 					conn.close();
@@ -200,6 +255,38 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String sql ="delete from board where no =?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, no);
+	
+			pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			System.out.println("error : "+e);
+		} finally {
+			try {
+				
+				if(pstmt != null ) {
+					pstmt.close();
+				}
+				if(conn != null ) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void visitCount(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql ="update board set hit = hit + 1 where no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, no);
