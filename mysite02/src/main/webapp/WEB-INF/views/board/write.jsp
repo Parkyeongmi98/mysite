@@ -19,21 +19,44 @@
 					<input type = "hidden" name = "a" value="write">
 					<input type = "hidden" name = "userNo" value="${authUser.no }">
 					<input type = "hidden" name = "no" value="${no}">
-					<table class="tbl-ex">
-						<tr>
-							<th colspan="2">글쓰기</th>
-						</tr>
-						<tr>
-							<td class="label">제목</td>
-							<td><input type="text" name="title" value=""></td>
-						</tr>
-						<tr>
-							<td class="label">내용</td>
-							<td>
-								<textarea id="content" name="contents"></textarea>
-							</td>
-						</tr>
-					</table>
+					
+					<c:choose>
+						<c:when test="${not empty authUser }">
+						<table class="tbl-ex">
+							<tr>
+								<th colspan="2">글쓰기</th>
+							</tr>
+							<tr>
+								<td class="label">제목</td>
+								<td><input type="text" name="title" value=""></td>
+							</tr>
+							<tr>
+								<td class="label">내용</td>
+								<td>
+									<textarea id="content" name="contents"></textarea>
+								</td>
+							</tr>
+							</table>
+						</c:when>
+						<c:otherwise>
+						<table class="tbl-ex">
+							<tr>
+								<th colspan="2">로그인 후 이용해주세요</th>
+							</tr>
+							<tr>
+								<td class="label">제목</td>
+								<td><input type="text" name="title" value=""></td>
+							</tr>
+							<tr>
+								<td class="label">내용</td>
+								<td>
+									<textarea id="content" name="contents"></textarea>
+								</td>
+							</tr>
+							</table>
+						</c:otherwise>
+					</c:choose>
+					
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board?page=1">취소</a>
 						<input type="submit" value="등록">
