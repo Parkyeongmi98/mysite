@@ -124,10 +124,10 @@ public class BoardDao {
 		PreparedStatement updatepstmt = null;
 		ResultSet rs = null;
 		String sql = null;
-		String select_sql = null;
-		String update_sql = null;
-		int g_no = 0;
-		int o_no = 0;
+		String selectSql = null;
+		String updateSql = null;
+		int groupNo = 0;
+		int orderNo = 0;
 		int depth = 0;
 		
 		try {
@@ -151,24 +151,24 @@ public class BoardDao {
 				// 댓글 쓰기
 			} else {
 				// 부모 글의 g_no, o_no, depth 찾기
-				select_sql = "select g_no, o_no, depth from board where no = ?";
-				selectpstmt = conn.prepareStatement(select_sql);
+				selectSql = "select g_no, o_no, depth from board where no = ?";
+				selectpstmt = conn.prepareStatement(selectSql);
 				
 				selectpstmt.setLong(1, vo.getNo());
 				rs = selectpstmt.executeQuery();
 			
 				if(rs.next()) {
-					g_no =rs.getInt(1);
-					o_no =rs.getInt(2) + 1;
+					groupNo =rs.getInt(1);
+					orderNo =rs.getInt(2) + 1;
 					depth =rs.getInt(3) + 1;
 				}
 				
 				//update
-				update_sql="update board set o_no = o_no + 1 where g_no = ? and o_no >= ?";
-				updatepstmt = conn.prepareStatement(update_sql);
+				updateSql="update board set o_no = o_no + 1 where g_no = ? and o_no >= ?";
+				updatepstmt = conn.prepareStatement(updateSql);
 				
-				updatepstmt.setInt(1, g_no);
-				updatepstmt.setInt(2, o_no);
+				updatepstmt.setInt(1, groupNo);
+				updatepstmt.setInt(2, orderNo);
 				updatepstmt.executeQuery();
 				
 				//insert
@@ -178,8 +178,8 @@ public class BoardDao {
 					
 				pstmt.setString(1, vo.getTitle());
 				pstmt.setString(2, vo.getContents());
-				pstmt.setInt(3, g_no);
-				pstmt.setInt(4, o_no);
+				pstmt.setInt(3, groupNo);
+				pstmt.setInt(4, orderNo);
 				pstmt.setInt(5, depth);
 				pstmt.setLong(6, vo.getUserNo());
 				pstmt.executeQuery();

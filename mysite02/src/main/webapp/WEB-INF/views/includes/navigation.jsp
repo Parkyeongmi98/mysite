@@ -6,6 +6,6 @@
 		<ul>
 			<li><a href="${pageContext.request.contextPath }">박영미</a></li>
 			<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
-			<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+			<li><a href="${pageContext.request.contextPath }/board?page=1">게시판</a></li>
 		</ul>
 	</div>
