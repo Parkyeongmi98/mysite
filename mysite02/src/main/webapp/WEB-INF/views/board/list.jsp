@@ -64,7 +64,7 @@
 						</c:forEach>
 
 						<c:if test="${page < count/5 }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${page +1}">▶</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${page +1 }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>			
