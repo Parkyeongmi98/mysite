@@ -27,7 +27,7 @@ public class WriteAction implements Action {
 
 		new BoardDao().insert(vo);
 		
-		MvcUtil.redirect(request.getContextPath() + "/board", request, response);
+		MvcUtil.redirect(request.getContextPath() + "/board?page=1", request, response);
 
 	}
 
