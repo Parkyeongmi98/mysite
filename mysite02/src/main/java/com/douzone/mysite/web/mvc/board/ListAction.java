@@ -15,12 +15,15 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String keyword = request.getParameter("keyword");
 		String page = request.getParameter("page");
 		List<BoardVo> list = new BoardDao().findAll();
+		List<BoardVo> search = new BoardDao().findKeyword(keyword);
 		
+		request.setAttribute("page", page);
 		request.setAttribute("list", list);
-	    request.setAttribute("page", page);
-
+		request.setAttribute("search", search);
+	   
 		MvcUtil.forward("board/list", request, response);
 
 	}

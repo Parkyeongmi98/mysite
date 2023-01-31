@@ -16,7 +16,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
-					<input type="text" id="kwd" name="kwd" value="${kwd }">
+					<input type="text" id="kwd" name="keyword" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
 				<c:set var="count" value="${fn:length(list) }" />
@@ -28,7 +28,7 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>	
+					</tr>
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<c:if test="${count-5*(page-1) >= count-status.index && count-5*(page)+1 <= count-status.index }">			
 						<tr>
@@ -55,11 +55,11 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test="${page>1 }">
+						<c:if test="${page > 1 }">
 							<li><a href="${pageContext.request.contextPath }/board?page=${page-1 }">◀</a></li>
 						</c:if>
 
-						<c:forEach var="i" begin="1" end="${count/5+1 }" step="1">
+						<c:forEach var="i" begin="1" end="${count / 5+1 }" step="1">
 							<li><a href="${pageContext.request.contextPath }/board?page=${i }">${i }</a></li>
 						</c:forEach>
 

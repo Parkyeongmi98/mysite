@@ -27,6 +27,64 @@ public class BoardDao {
 			+ " order by a.g_no desc, a.o_no asc";
 			pstmt = conn.prepareStatement(sql);
 			
+			// 4. SQL 실행
+			rs = pstmt.executeQuery(); 
+			
+			// 5. 결과 처리
+			while (rs.next()) {
+				BoardVo vo = new BoardVo();
+				vo.setNo(rs.getLong(1));
+				vo.setTitle(rs.getString(2));
+				vo.setHit(rs.getLong(3));
+				vo.setRegDate(rs.getString(4));
+				vo.setUserName(rs.getString(5));
+				vo.setDepth(rs.getLong(6));
+
+				result.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error: " + e);;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<BoardVo> findKeyword(String keyword) {
+		List<BoardVo> result = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select a.no, a.title, a.hit, date_format(a.reg_date, '%Y-%m-%d %H:%i:%s'), b.name, a.depth" 
+					+ " from board a, user b" 
+					+ " where a.title";
+		
+		try {
+			conn = getConnection();
+
+			// 3. Statement 준비
+
+		
+			if(keyword != null && !keyword.equals("")){
+                sql += " LIKE '%"+ keyword.trim() + "%' order by a.g_no desc, a.o_no asc";
+            }
+			pstmt = conn.prepareStatement(sql);
 			
 			// 4. SQL 실행
 			rs = pstmt.executeQuery(); 
@@ -67,7 +125,7 @@ public class BoardDao {
 	
 	public BoardVo findView(Long no) {
 		BoardVo result = null;
-		
+		 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
