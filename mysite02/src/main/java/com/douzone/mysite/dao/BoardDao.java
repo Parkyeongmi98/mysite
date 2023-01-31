@@ -71,19 +71,15 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String sql = "select a.no, a.title, a.hit, date_format(a.reg_date, '%Y-%m-%d %H:%i:%s'), b.name, a.depth" 
-					+ " from board a, user b" 
-					+ " where a.title";
-		
+
 		try {
 			conn = getConnection();
 
 			// 3. Statement 준비
-
+			String sql = "select a.no, a.title, a.hit, date_format(a.reg_date, '%Y-%m-%d %H:%i:%s'), b.name, a.depth" 
+					+ " from board a, user b" 
+					+ " where a.title LIKE '%" + keyword + "%' order by a.g_no desc, a.o_no asc";
 		
-			if(keyword != null && !keyword.equals("")){
-                sql += " LIKE '%"+ keyword.trim() + "%' order by a.g_no desc, a.o_no asc";
-            }
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. SQL 실행
@@ -100,6 +96,7 @@ public class BoardDao {
 				vo.setDepth(rs.getLong(6));
 
 				result.add(vo);
+				System.out.println(vo);
 			}
 			
 		} catch (SQLException e) {

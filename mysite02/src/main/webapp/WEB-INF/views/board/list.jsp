@@ -30,9 +30,9 @@
 						<th>&nbsp;</th>
 					</tr>
 					<c:forEach items="${list }" var="vo" varStatus="status">
-						<c:if test="${count-5*(page-1) >= count-status.index && count-5*(page)+1 <= count-status.index }">			
+						<c:if test="${count-5*(page-1) >= count-status.index && count-5*(page)+1 <= count-status.index }">
 						<tr>
-							<td>[${count - status.index }]</td>
+							<td>[${vo.no }]</td>
 							<td style="text-align:left; padding-left: ${vo.depth*10 }px; ">
 								<c:if test="${vo.depth > 0 }">
 									<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png">
