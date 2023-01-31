@@ -7,12 +7,12 @@
 			<c:choose>
 				<c:when test="${not empty authUser }">
 					<li><a href="${pageContext.request.contextPath }">${authUser.name }</a></li>
-					<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
+					<li><a href="${pageContext.request.contextPath }/gb">방명록</a></li>
 					<li><a href="${pageContext.request.contextPath }/board?page=1">게시판</a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="${pageContext.request.contextPath }">메인</a></li>
-					<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
+					<li><a href="${pageContext.request.contextPath }/gb">방명록</a></li>
 					<li><a href="${pageContext.request.contextPath }/board?page=1">게시판</a></li>
 				</c:otherwise>
 			</c:choose>
