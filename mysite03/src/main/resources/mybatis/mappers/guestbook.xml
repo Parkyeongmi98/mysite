@@ -4,34 +4,38 @@
 <mapper namespace="guestbook">
 	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
-
+		insert 
+			into guestbook 
+			values(null, #{name }, #{password }, #{message }, now())
 		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
 	</insert>
 	
-	<update id="update" parameterType="guestbookvo">
-		<choose>
-			<when test='password == ""'>
-				<![CDATA[
-
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
-
-				]]>
-			</otherwise>
-		</choose>
-	</update>
-
-	<select id="findByEmailandPassword" resultType="guestbookvo" parameterType="map">
+	<delete id="deleteByPassword" parameterType="map">
 		<![CDATA[
-
+		delete from guestbook where no = #{no } and password = #{password }
+		]]>
+	</delete>
+	
+	<!-- result값 이름 설정 후 select에서 받아오기 -->
+	<resultMap id="findallList" type="guestbookvo">
+		<id property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="message" column="message" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+	
+	<select id="findAll" resultMap="findallList">
+		<![CDATA[
+		select no, name, password, message, reg_date
+			from guestbook
+			order by reg_date desc
 		]]>
 	</select>
 	
-	<select id="findByNo" resultType="guestbookvo" parameterType="long">
-		<![CDATA[
-
-		]]>
-	</select>
 </mapper>

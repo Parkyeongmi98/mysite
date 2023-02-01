@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<!-- value가 true일 경우, 프로젝션 컬럼 이름의 _ 를 대문자로 자동 변경(reg_date -> regDate):setter name 때문에 -->
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+	</settings>
+
 	<typeAliases>
 		<typeAlias type="com.douzone.mysite.vo.UserVo" alias="uservo" />
 		<typeAlias type="com.douzone.mysite.vo.GuestbookVo" alias="guestbookvo" />
