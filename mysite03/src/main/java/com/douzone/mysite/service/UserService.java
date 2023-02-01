@@ -16,11 +16,11 @@ public class UserService {
 	}
 
 	public UserVo getUser(UserVo vo) {
-		return userRepository.findByEmailandPassword(vo);
+		return userRepository.findByEmailandPassword(vo.getEmail(), vo.getPassword());
 	}
 
 	public UserVo getUser(Long no) {
-		return userRepository.findByAll(no);
+		return userRepository.findByNo(no);
 	}
 
 	public void updateUser(UserVo vo) {

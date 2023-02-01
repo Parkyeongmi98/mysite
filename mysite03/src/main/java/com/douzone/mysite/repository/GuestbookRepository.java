@@ -1,19 +1,27 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
+	@Autowired
+	private DataSource dataSource; // applicationContext에 설정한 Connection Pool DataSource
+	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	public List<GuestbookVo> findAll() {
 		List<GuestbookVo> result = new ArrayList<>();
@@ -23,7 +31,7 @@ public class GuestbookRepository {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. Statement 준비
 			String sql = "select no, name, password, message, date_format(reg_date, '%Y-%m-%d %H:%i:%s')" 
@@ -73,7 +81,7 @@ public class GuestbookRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. Statement 준비
 			String sql = "insert into guestbook values(null, ?, ?, ?, sysdate())";
@@ -109,7 +117,7 @@ public class GuestbookRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. Statement 준비
 			String sql = "delete from guestbook where no = ? and password = ?";
@@ -136,22 +144,6 @@ public class GuestbookRepository {
 			}
 		}
 		
-	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			// 1. JDBC Driver Class 로딩
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.10.121:3307/webdb?charset=utf8";   		
-			// DriverManager의 Connection 불러오기
-			// 2. 드라이버 연결하기
-			conn = DriverManager.getConnection(url, "webdb", "webdb");  // (url, 아이디, 비밀번호)
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패: " + e);
-		}
-		
-		return conn;
 	}
 
 }
