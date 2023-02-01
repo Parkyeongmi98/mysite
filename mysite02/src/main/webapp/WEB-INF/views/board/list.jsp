@@ -32,7 +32,7 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<c:if test="${count-5*(page-1) >= count-status.index && count-5*(page)+1 <= count-status.index }">
 						<tr>
-							<td>[${vo.no }]</td>
+							<td>[${count - status.index }]</td>
 							<td style="text-align:left; padding-left: ${vo.depth*10 }px; ">
 								<c:if test="${vo.depth > 0 }">
 									<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png">
@@ -56,15 +56,15 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${page > 1 }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${page-1 }">◀</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${page-1 }&keyword=${keyword }">◀</a></li>
 						</c:if>
 
 						<c:forEach var="i" begin="1" end="${count / 5+1 }" step="1">
-							<li><a href="${pageContext.request.contextPath }/board?page=${i }">${i }</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${i }&keyword=${keyword }">${i }</a></li>
 						</c:forEach>
 
 						<c:if test="${page < count/5 }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${page +1 }">▶</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${page +1 }&keyword=${keyword }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>			

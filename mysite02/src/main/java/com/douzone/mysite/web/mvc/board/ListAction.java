@@ -17,12 +17,12 @@ public class ListAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String keyword = request.getParameter("keyword");
 		String page = request.getParameter("page");
-		if(page == null) {
+		if(page == "" || page == null) {
 			page = "1";
 		}
 		
 		List<BoardVo> list;
-		if(keyword == null) {
+		if(keyword == "" || keyword == null) {
 			list = new BoardDao().findAll();
 		} else {
 			list = new BoardDao().findKeyword(keyword);
@@ -30,6 +30,7 @@ public class ListAction implements Action {
 		
 		request.setAttribute("page", page);
 		request.setAttribute("list", list);
+		request.setAttribute("keyword", keyword);
 		
 		MvcUtil.forward("board/list", request, response);
 
