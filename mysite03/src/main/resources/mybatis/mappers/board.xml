@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<!-- 게시판 리스트 -->
+	<select id="findAllByPageAndKeyword" resultType="boardvo" parameterType="map">
+		<choose>
+			<when test='keyword == null || keyword == ""'>
+				<![CDATA[
+				select a.no, a.title, a.hit, a.reg_date, b.name as userName, a.depth 
+					from board a, user b
+					where a.user_no = b.no
+					order by a.g_no desc, a.o_no asc
+					limit #{startOffset }, #{size }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select a.no, a.title, a.hit, a.reg_date, b.name as userName, a.depth 
+					from board a, user b
+					where a.user_no = b.no
+					and title like '%${keyword }%'
+					or contents like '%${keyword }%'
+					order by a.g_no desc, a.o_no asc
+					limit #{startOffset }, #{size }
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 게시판 총 개수 -->
+	<select id="getTotalCount" parameterType="integer" resultType="boardvo">
+		<choose>
+			<when test='_parameter == null || _parameter == ""'>
+				<![CDATA[
+				select count(*)
+					from board
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select count(*)
+					from board
+					where title like '%${_parameter }%'
+					or contents like '%${_parameter }%'
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 게시판 상세보기 -->
+	<select id="getContentsNo" resultType="boardvo" parameterType="long">
+		<![CDATA[
+		select a.no, a.title, a.contents, b.name as userName
+			from board a, user b
+			where a.user_no = b.no
+			and a.no = #{no }
+		]]>
+	</select>
+	
+	<!-- 게시판 수정하기 -->
+	<update id="updateContents" parameterType="boardvo">
+		<![CDATA[
+		update board
+			set title = #{title }, contents = #{contents }
+			where no = #{no }
+		]]>
+	</update>
+</mapper>
