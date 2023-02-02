@@ -18,25 +18,37 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 	
-	public void addContents(BoardVo vo) {
-		
+	public void writeContents(BoardVo vo) {
+		if(vo.getGroupNo() == null) { //게시물 작성
+			Long maxGNo = boardRepository.getMaxGroupNo();
+			vo.setGroupNo(maxGNo + 1);			
+		}else {	//댓글 작성
+			vo.setDepth(vo.getDepth() + 1);
+			boardRepository.updateOrderNo(vo.getOrderNo(), vo.getGroupNo());
+			vo.setOrderNo(vo.getOrderNo() + 1);
+		}
+		boardRepository.insertContents(vo);
 	}
 	
 	public BoardVo getContents(Long no) {
 		return boardRepository.getContentsNo(no);
 	}
 	
-//	public BoardVo getContents(Long no, Long userNo) {
-//		return null;
-//		// accsee 제어
-//	}	
+	public BoardVo getContents(Long no, Long userNo) {
+		// 보안을 위해 authUser no도 필요
+		return boardRepository.getContentsNoandUserNo(no, userNo);
+	}
+	
+	public void visitCount(Long no) {
+		boardRepository.visitCount(no);
+	}
 	
 	public void updateContents(BoardVo vo) {
 		boardRepository.updateContents(vo);
 	}
 	
-	public void deleteContents(Long no) {
-		boardRepository.deleteContents(no);
+	public void deleteContents(Long no, Long userNo) {
+		boardRepository.deleteContents(no, userNo);
 	}
 	
 	public Map<String, Object> getContentsList(int pageNo, String keyword) {

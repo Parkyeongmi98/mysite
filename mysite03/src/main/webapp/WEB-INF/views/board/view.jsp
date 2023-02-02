@@ -35,11 +35,18 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board?page=1">글목록</a>
-					<c:if test="${not empty authUser }">
-						<a href="${pageContext.request.contextPath }/board/writer/${boardvo.no }">답글작성</a>
-					</c:if>
+
 					<c:if test="${authUser.name == boardvo.userName}">
-						<a href="${pageContext.request.contextPath }/board/update/${boardvo.no}">글수정</a>
+						<a href="${pageContext.request.contextPath }/board/update/${boardvo.no }">글수정</a>
+					</c:if>
+					
+					<c:if test="${not empty authUser }">
+						<form method="post" action="${pageContext.request.contextPath }/board/reply">
+							<input type = "hidden" name = "groupNo" value="${boardvo.groupNo }">
+							<input type = "hidden" name = "orderNo" value="${boardvo.orderNo }">
+							<input type = "hidden" name = "depth" value="${boardvo.depth }">
+							<input type= "submit" value="댓글달기">
+						</form>
 					</c:if>
 				</div>
 			</div>

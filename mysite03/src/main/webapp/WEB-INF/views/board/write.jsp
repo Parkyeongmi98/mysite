@@ -15,11 +15,10 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-					<input type = "hidden" name = "a" value="write">
-					<input type = "hidden" name = "userNo" value="${authUser.no }">
-					<input type = "hidden" name = "no" value="${no}">
-					
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+					<input type = "hidden" name = "groupNo" value="${vo.groupNo }">
+					<input type = "hidden" name = "orderNo" value="${vo.orderNo == null ? 1 : vo.orderNo}">
+					<input type = "hidden" name = "depth" value="${vo.depth == null ? 0 : vo.depth}">
 					<c:choose>
 						<c:when test="${not empty authUser }">
 						<table class="tbl-ex">
