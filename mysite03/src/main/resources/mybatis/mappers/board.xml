@@ -65,4 +65,13 @@
 			where no = #{no }
 		]]>
 	</update>
+	
+	<!-- 게시글 삭제하기 -->
+	<delete id="deleteContents" parameterType="long">
+		<![CDATA[
+		delete 
+			from board 
+			where no = #{no }
+		]]>
+	</delete>
 </mapper>

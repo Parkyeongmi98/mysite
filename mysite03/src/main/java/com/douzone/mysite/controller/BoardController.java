@@ -56,4 +56,13 @@ public class BoardController {
 		
 		return "redirect:/board/view/{no}";
 	}
+	
+	@RequestMapping("/delete/{no}")
+	public String delete(@PathVariable("no") Long no) {
+		
+		boardService.deleteContents(no);
+		return "redirect:/board";
+	}
+	
+
 }

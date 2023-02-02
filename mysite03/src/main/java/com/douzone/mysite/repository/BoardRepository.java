@@ -36,4 +36,8 @@ public class BoardRepository {
 	public void updateContents(BoardVo vo) {
 		sqlSession.update("board.updateContents", vo);
 	}
+	
+	public void deleteContents(Long no) {
+		sqlSession.selectOne("board.deleteContents", no);
+	}
 }
