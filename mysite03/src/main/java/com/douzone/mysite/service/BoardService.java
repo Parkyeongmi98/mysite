@@ -19,10 +19,12 @@ public class BoardService {
 	private BoardRepository boardRepository;
 	
 	public void writeContents(BoardVo vo) {
-		if(vo.getGroupNo() == null) { //게시물 작성
+		if(vo.getGroupNo() == null) { // 새 게시물 작성
 			Long maxGNo = boardRepository.getMaxGroupNo();
-			vo.setGroupNo(maxGNo + 1);			
-		}else {	//댓글 작성
+			vo.setGroupNo(maxGNo + 1);
+			vo.setOrderNo(1L);
+			vo.setDepth(0L);
+		} else { // 게시물에 대한 댓글 작성
 			vo.setDepth(vo.getDepth() + 1);
 			boardRepository.updateOrderNo(vo.getOrderNo(), vo.getGroupNo());
 			vo.setOrderNo(vo.getOrderNo() + 1);

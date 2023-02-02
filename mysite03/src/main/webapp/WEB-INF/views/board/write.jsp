@@ -16,9 +16,9 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
-					<input type = "hidden" name = "groupNo" value="${vo.groupNo }">
-					<input type = "hidden" name = "orderNo" value="${vo.orderNo == null ? 1 : vo.orderNo}">
-					<input type = "hidden" name = "depth" value="${vo.depth == null ? 0 : vo.depth}">
+					<input type = "hidden" name = "groupNo" value="${boardvo.groupNo }">
+					<input type = "hidden" name = "orderNo" value="${boardvo.orderNo }">
+					<input type = "hidden" name = "depth" value="${boardvo.depth }">
 					<c:choose>
 						<c:when test="${not empty authUser }">
 						<table class="tbl-ex">

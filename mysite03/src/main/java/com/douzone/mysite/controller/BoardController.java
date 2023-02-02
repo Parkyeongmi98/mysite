@@ -93,7 +93,7 @@ public class BoardController {
 	
 	@RequestMapping(value ="/reply", method = RequestMethod.POST)
 	public String reply(BoardVo vo, Model model) {
-		model.addAttribute("vo", vo);
+		model.addAttribute("boardvo", vo);
 		return "board/write";
 	}
 }
