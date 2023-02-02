@@ -57,6 +57,26 @@
 		]]>
 	</select>
 	
+	<!-- 게시판 새로운 글 등록하기 -->
+	<insert id="insertContents" parameterType="boardvo">
+		<![CDATA[
+		insert into board (title, contents, hit, reg_date, g_no, o_no, depth, user_no)
+			select #{title }, #{contents }, 0, now(), ifnull(max(g_no), 0) + 1, 1, 0, #{user_no }
+			from board
+		]]>
+	</insert>
+	
+	<!-- 부모 글의 g_no, o_no, depth 찾기 -->
+	<select id="getParentsContents" resultType="boardvo" parameterType="long">
+		<![CDATA[
+		select g_no, o_no, depth 
+			from board
+			where no = #{no }
+		]]>
+	</select>
+	
+	<!-- 댓글 g_no, o_no 수정하기 -->
+	
 	<!-- 게시판 수정하기 -->
 	<update id="updateContents" parameterType="boardvo">
 		<![CDATA[
@@ -74,4 +94,13 @@
 			where no = #{no }
 		]]>
 	</delete>
+	
+	<!-- 조회수 -->
+	<update id="visitCount" parameterType="long">
+		<![CDATA[
+		update board
+			set hit = hit + 1
+			where no = #{no }
+		]]>
+	</update>
 </mapper>
