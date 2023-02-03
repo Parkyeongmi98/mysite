@@ -23,8 +23,8 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("")
-	public String list(Model model) {
-		Map<String, Object> map = boardService.getContentsList(1, "");
+	public String list(@RequestParam(value="pageNo", defaultValue = "1", required = false) int pageNo, @RequestParam(value="keyword", required = false) String keyword ,Model model) {
+		Map<String, Object> map = boardService.getContentsList(pageNo, keyword);
 		
 		model.addAllAttributes(map);
 		return "board/list";

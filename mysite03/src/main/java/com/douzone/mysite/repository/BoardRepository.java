@@ -15,6 +15,7 @@ public class BoardRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 게시글 리스트
 	public List<BoardVo> findAllByPageAndKeyword(int pageNo, String keyword, int size) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("startOffset", (pageNo-1)*size);
@@ -24,6 +25,7 @@ public class BoardRepository {
 		return sqlSession.selectList("board.findAllByPageAndKeyword", map);
 	}
 
+	// 게시글 총 개수
 	public int getTotalCount(String keyword) {
 		return 	sqlSession.selectOne("board.getTotalCount", keyword);
 	}
