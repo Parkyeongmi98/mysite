@@ -57,11 +57,12 @@ public class BoardService {
 		int totalCount = boardRepository.getTotalCount(keyword);
 		
 		// 1. view에서 게시판 리스트를 렌더링 하기 위한 데이터 값 계산
-		int endPage = (int)(Math.ceil(pageNo/(double)PAGE_SIZE) * PAGE_SIZE);
-		int startPage = (endPage - PAGE_SIZE) + 1;
-		boolean prePage = startPage == 1 ? false : true;
-		boolean nextPage = endPage * LIST_SIZE < totalCount ? true : false;
-		int tempEndPage = (int) (Math.ceil(totalCount / (double)LIST_SIZE));
+		int totalPage = totalCount % LIST_SIZE == 0 ? totalCount/LIST_SIZE : (int)(totalCount/LIST_SIZE) + 1;
+		int block = (int)((pageNo -1) / PAGE_SIZE) + 1; // 표시되는 페이지리스트 목록
+		int startPage = (block * PAGE_SIZE) - 4; // 시작 페이지
+		int endPage = (block * PAGE_SIZE) > totalPage ? totalPage : block * PAGE_SIZE; // 마지막 페이지
+		int prePage = pageNo > 1 ? pageNo - 1 : -1; // 이전 페이지 -> pageNo가 1보다 크면 -1씩 아니면 -1을 넘겨줘서 안보이게
+		int nextPage = pageNo + 1 > totalPage ? -1 : pageNo + 1; // 다음 페이지 -> pageNo가 totalPage보다 크면 -1을 넘겨줘서 안보이게
 		
 		// 2. 리스트 가져오기
 		List<BoardVo> list = boardRepository.findAllByPageAndKeyword(pageNo, keyword, LIST_SIZE);
@@ -70,10 +71,10 @@ public class BoardService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		map.put("startPage", startPage);
+		map.put("endPage", endPage);
 		map.put("prePage", prePage);
 		map.put("nextPage", nextPage);
-		map.put("tempEndPage", tempEndPage);
-		map.put("endPage", endPage);
+		map.put("keyword", keyword);
 		
 		return map;
 	}

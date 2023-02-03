@@ -32,7 +32,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?page=1">취소</a>
+						<a href="${pageContext.request.contextPath }/board?pageNo=1&keyword">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				

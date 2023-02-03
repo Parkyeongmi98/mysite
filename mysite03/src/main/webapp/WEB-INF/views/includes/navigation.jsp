@@ -13,7 +13,7 @@
 				<c:otherwise>
 					<li><a href="${pageContext.request.contextPath }">메인</a></li>
 					<li><a href="${pageContext.request.contextPath }/gb">방명록</a></li>
-					<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+					<li><a href="${pageContext.request.contextPath }/board?pageNo=1&keyword">게시판</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>

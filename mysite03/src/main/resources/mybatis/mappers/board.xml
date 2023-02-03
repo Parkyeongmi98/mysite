@@ -4,9 +4,9 @@
 	<!-- 게시판 리스트 -->
 	<select id="findAllByPageAndKeyword" resultType="boardvo" parameterType="map">
 		<choose>
-			<when test='keyword == null || keyword == ""'>
+			<when test='keyword == null or keyword == ""'>
 				<![CDATA[
-				select a.no, a.title, a.hit, a.reg_date, b.name as userName, a.depth 
+				select a.no, a.title, a.contents, a.hit, a.reg_date, b.name as userName, a.depth 
 					from board a, user b
 					where a.user_no = b.no
 					order by a.g_no desc, a.o_no asc
@@ -15,11 +15,11 @@
 			</when>
 			<otherwise>
 				<![CDATA[
-				select a.no, a.title, a.hit, a.reg_date, b.name as userName, a.depth 
+				select a.no, a.title, a.contents, a.hit, a.reg_date, b.name as userName, a.depth 
 					from board a, user b
 					where a.user_no = b.no
-					and title like '%${keyword }%'
-					or contents like '%${keyword }%'
+					and a.title like '%${keyword }%'
+					or a.contents like '%${keyword }%'
 					order by a.g_no desc, a.o_no asc
 					limit #{startOffset }, #{size }
 				]]>
@@ -30,7 +30,7 @@
 	<!-- 게시판 총 개수 -->
 	<select id="getTotalCount" parameterType="string" resultType="integer">
 		<choose>
-			<when test='_parameter == null || _parameter == ""'>
+			<when test='_parameter == null or _parameter == ""'>
 				<![CDATA[
 				select count(*)
 					from board

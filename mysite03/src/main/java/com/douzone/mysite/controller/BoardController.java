@@ -71,7 +71,7 @@ public class BoardController {
 		}
 		
 		boardService.deleteContents(no, authUser.getNo());
-		return "redirect:/board";
+		return "redirect:/board?page=1&keyword";
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
@@ -88,7 +88,7 @@ public class BoardController {
 		
 		vo.setUserNo(authUser.getNo());
 		boardService.writeContents(vo);
-		return "redirect:/board";
+		return "redirect:/board?page=1&keyword";
 	}
 	
 	@RequestMapping(value ="/reply", method = RequestMethod.POST)

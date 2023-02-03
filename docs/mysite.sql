@@ -7,5 +7,4 @@ from board;
 select a.no, a.title, a.contents, a.hit, a.reg_date, b.name, b.no, a.g_no, a.o_no, a.depth
 	from board a, user b
     where a.user_no = b.no
-    and a.title like "%저녁%"
     order by a.g_no desc, a.o_no asc;

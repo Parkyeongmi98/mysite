@@ -53,16 +53,16 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test="${prePage }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNo=${startPage -1 }&keyword=${keyword }">◀</a></li>
+						<c:if test="${prePage != -1 }">
+							<li><a href="${pageContext.request.contextPath }/board?pageNo=${prePage }&keyword=${keyword }">◀</a></li>
 						</c:if>
 
 						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
 							<li><a href="${pageContext.request.contextPath }/board?pageNo=${i }&keyword=${keyword }">${i }</a></li>
 						</c:forEach>
 
-						<c:if test="${nextPage && endPage > 0 }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNo=${endPage +1 }&keyword=${keyword }">▶</a></li>
+						<c:if test="${nextPage != -1 }">
+							<li><a href="${pageContext.request.contextPath }/board?pageNo=${nextPage }&keyword=${keyword }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>			
