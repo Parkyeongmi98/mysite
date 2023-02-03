@@ -88,6 +88,13 @@
 		    <version>2.13.4.1</version>
 		</dependency>
 		
+		<!-- validation -->
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>6.2.3.Final</version>
+		</dependency>
+		
 		<!-- Logback --> 
 		<dependency>                                    
 			<groupId>org.slf4j</groupId>                
