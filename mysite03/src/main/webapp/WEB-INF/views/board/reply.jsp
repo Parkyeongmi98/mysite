@@ -17,7 +17,12 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+				<form:form modelAttribute="boardVo" class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+					<input type = "hidden" name = "groupNo" value="${boardvo.groupNo }">
+					<input type = "hidden" name = "orderNo" value="${boardvo.orderNo }">
+					<input type = "hidden" name = "depth" value="${boardvo.depth }">
+					<input type="hidden" name="pageNo" value="${param.pageNo }" />
+					<input type="hidden" name="keyword" value="${param.keyword }" />
 					<c:choose>
 						<c:when test="${not empty authUser }">
 						<table class="tbl-ex">
@@ -59,7 +64,7 @@
 						<a href="${pageContext.request.contextPath }/board?pageNo=${param.pageNo }&keyword=${param.keyword }">취소</a>
 						<input type="submit" value="등록">
 					</div>
-				</form>				
+				</form:form>				
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"></c:import>

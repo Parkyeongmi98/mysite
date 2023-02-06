@@ -28,16 +28,19 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("")
-	public String list(@RequestParam(value="pageNo", defaultValue = "1", required = false) int pageNo, @RequestParam(value="keyword", required = false) String keyword ,Model model) {
+	public String list(
+			@RequestParam(value="pageNo", required = true, defaultValue = "1") Integer pageNo, 
+			@RequestParam(value="keyword", required = true, defaultValue="") String keyword, 
+			Model model) {
 		Map<String, Object> map = boardService.getContentsList(pageNo, keyword);
 		
-		model.addAllAttributes(map);
+		model.addAttribute("map", map);
+		model.addAttribute("keyword", keyword);
 		return "board/list";
 	}
 	
 	@RequestMapping("/view/{no}")
 	public String view(@PathVariable("no") Long no, Model model) {
-		boardService.visitCount(no); // 조회수
 		BoardVo boardvo = boardService.getContents(no);
 		model.addAttribute("boardvo", boardvo);
 
@@ -54,18 +57,28 @@ public class BoardController {
 	}
 	
 	@Auth
-	@RequestMapping(value="/update/{no}", method=RequestMethod.POST)
-	public String update(@AuthUser UserVo authUser, @PathVariable("no") Long no, BoardVo vo) {
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(
+			@AuthUser UserVo authUser, 
+			@ModelAttribute @Valid BoardVo vo, 
+			@RequestParam(value="pageNo", required = true, defaultValue = "1") Integer pageNo, 
+			@RequestParam(value="keyword", required = true, defaultValue="") String keyword) {
+		vo.setUserNo(authUser.getNo());
 		boardService.updateContents(vo);
 		
-		return "redirect:/board/view/{no}";
+		return "redirect:/board/view/" + vo.getNo() + "?pageNo" + pageNo + "&keyword=" + keyword;
 	}
 	
 	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(@AuthUser UserVo authUser, @PathVariable("no") Long no) {
+	public String delete(
+			@AuthUser UserVo authUser, 
+			@PathVariable("no") Long no,
+			@RequestParam(value="pageNo", required = true, defaultValue = "1") Integer pageNo, 
+			@RequestParam(value="keyword", required = true, defaultValue="") String keyword) {
 		boardService.deleteContents(no, authUser.getNo());
-		return "redirect:/board?page=1&keyword";
+		
+		return "redirect:/board?pageNo" + pageNo + "&keyword=" + keyword;
 	}
 	
 	@Auth
@@ -76,15 +89,27 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(@AuthUser UserVo authUser, @ModelAttribute @Valid BoardVo vo, BindingResult result, Model model) {
+	public String write(
+			@AuthUser UserVo authUser, 
+			@ModelAttribute @Valid BoardVo vo, 
+			@RequestParam(value="pageNo", required = true, defaultValue = "1") Integer pageNo, 
+			@RequestParam(value="keyword", required = true, defaultValue="") String keyword) {
 		vo.setUserNo(authUser.getNo());
 		boardService.writeContents(vo);
-		return "redirect:/board?page=1&keyword";
+		
+		return "redirect:/board?pageNo" + pageNo + "&keyword=" + keyword;
 	}
 	
-	@RequestMapping(value ="/reply", method = RequestMethod.POST)
-	public String reply(BoardVo vo, Model model) {
-		model.addAttribute("boardvo", vo);
-		return "board/write";
+	@RequestMapping("/reply/{no}")
+	public String reply(
+			@AuthUser UserVo authUser, 
+			@PathVariable("no") Long no,
+			Model model) {
+		BoardVo boardVo = boardService.getContents(no);
+		boardVo.setOrderNo(boardVo.getOrderNo() + 1);
+		boardVo.setDepth(boardVo.getDepth() + 1);
+		model.addAttribute("boardvo", boardVo);
+		
+		return "board/reply";
 	}
 }

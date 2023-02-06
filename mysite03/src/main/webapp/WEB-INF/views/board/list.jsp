@@ -19,7 +19,6 @@
 					<input type="text" id="kwd" name="keyword" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
-				<c:set var="count" value="${fn:length(list) }" />
 				<table class="tbl-ex">
 					<tr>
 						<th>번호</th>
@@ -29,21 +28,21 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:forEach items="${list }" var="vo" varStatus="status">
+					<c:forEach items="${map.list }" var="vo" varStatus="status">
 						<tr>
-							<td>[${count - status.index }]</td>
+							<td>${map.totalCount - (map.currentPage - 1) * map.listSize - status.index }</td>
 							<td style="text-align:left; padding-left: ${vo.depth*10 }px; ">
 								<c:if test="${vo.depth > 0 }">
 									<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png">
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board/view/${vo.no}">${vo.title }</a>
+								<a href="${pageContext.request.contextPath }/board/view/${vo.no}?pageNo=${map.currentPage }&keyword=${map.keyword }">${vo.title }</a>
 							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
 							<td>
 								<c:if test="${authUser.name == vo.userName}">
-									<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del">삭제</a>
+									<a href="${pageContext.request.contextPath }/board/delete/${vo.no}?pageNo=${map.currentPage }&keyword=${map.keyword }" class="del">삭제</a>
 								</c:if>
 							</td>
 						</tr>
@@ -53,24 +52,33 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test="${prePage != -1 }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNo=${prePage }&keyword=${keyword }">◀</a></li>
+						<c:if test="${map.prevPage > 0 }" >
+							<li><a href="${pageContext.request.contextPath }/board?pageNo=${map.prevPage }&keyword=${map.keyword }">◀</a></li>
 						</c:if>
-
-						<c:forEach var="i" begin="${startPage }" end="${endPage }" step="1">
-							<li><a href="${pageContext.request.contextPath }/board?pageNo=${i }&keyword=${keyword }">${i }</a></li>
+						
+						<c:forEach begin="${map.beginPage }" end="${map.beginPage + map.listSize - 1 }" var="page">
+							<c:choose>
+								<c:when test="${map.endPage < page }">
+									<li>${page }</li>
+								</c:when> 
+								<c:when test="${map.currentPage == page }">
+									<li class="selected">${page }</li>
+								</c:when>
+								<c:otherwise> 
+									<li><a href="${pageContext.request.contextPath }/board?pageNo=${page }&keyword=${map.keyword }">${page }</a></li>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
-
-						<c:if test="${nextPage != -1 }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNo=${nextPage }&keyword=${keyword }">▶</a></li>
-						</c:if>
+						<c:if test="${map.nextPage > 0 }" >
+							<li><a href="${pageContext.request.contextPath }/board?pageNo=${map.nextPage }&keyword=${map.keyword }">▶</a></li>
+						</c:if>	
 					</ul>
 				</div>			
 				<!-- pager 추가 -->
-				
+
 				<c:if test="${not empty authUser }">
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/write?pageNo=${map.currentPage }&keyword=${map.keyword }" id="new-book">글쓰기</a>
 					</div>
 				</c:if>	
 			</div>

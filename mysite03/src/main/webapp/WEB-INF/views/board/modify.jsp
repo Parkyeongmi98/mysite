@@ -16,6 +16,9 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/update/${boardvo.no }">
+					<input type="hidden" name="no" value="${boardVo.no }" />
+					<input type="hidden" name="pageNo" value="${param.pageNo }" />
+					<input type="hidden" name="keyword" value="${param.keyword }" />
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
@@ -32,7 +35,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?pageNo=1&keyword">취소</a>
+						<a href="${pageContext.request.contextPath }/board/view/${boardVo.no }?pageNo=${param.pageNo }&keyword=${param.keyword }">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				

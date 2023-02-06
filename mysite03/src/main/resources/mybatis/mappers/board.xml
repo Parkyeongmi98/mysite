@@ -1,12 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
+	<!-- 게시판글 등록하기 -->
+	<insert id="insert" parameterType="boardvo">
+		<choose>
+			<when test="groupNo == null">
+				<![CDATA[
+				insert 
+					into board
+					values(null, #{title }, #{contents }, 0, now(), (select ifnull(max(g_no), 0) + 1 from board a ), 1, 0, #{userNo })
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				insert into board
+				values(null, #{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo })
+				]]>
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<!-- 게시판 수정하기 -->
+	<update id="update" parameterType="boardvo">
+		<![CDATA[
+		update board
+			set title = #{title }, contents = #{contents }
+			where no = #{no }
+			and user_no = #{userNo }
+		]]>
+	</update>
+	
+	<!-- 게시글 삭제하기 -->
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete 
+			from board 
+			where no = #{no }
+			and user_no = #{userNo }
+		]]>
+	</delete>
+	
+	<!-- 게시판 새글인지 댓글인지 구분하는 번호 -->
+	<select id="findByNo" resultType="boardvo" parameterType="long">
+		<![CDATA[
+		select no, title, contents, g_no as groupNo, o_no as orderNo, depth, user_no as userNo
+			from board
+			where no = #{no }
+		]]>
+	</select>
+	
+	<!-- 게시판 상세보기 -->
+	<select id="findByNoAndUserNo" resultType="boardvo" parameterType="map">
+		<![CDATA[
+		select no, title, contents
+			from board
+			where no = #{no }
+			and user_no = #{userNo }
+		]]>
+	</select>
+	
 	<!-- 게시판 리스트 -->
 	<select id="findAllByPageAndKeyword" resultType="boardvo" parameterType="map">
 		<choose>
 			<when test='keyword == null or keyword == ""'>
 				<![CDATA[
-				select a.no, a.title, a.contents, a.hit, a.reg_date, b.name as userName, a.depth 
+				select a.no, a.title, a.contents, a.hit, a.reg_date, a.depth, b.name as userName, a.user_no as userNo
 					from board a, user b
 					where a.user_no = b.no
 					order by a.g_no desc, a.o_no asc
@@ -15,7 +73,7 @@
 			</when>
 			<otherwise>
 				<![CDATA[
-				select a.no, a.title, a.contents, a.hit, a.reg_date, b.name as userName, a.depth 
+				select a.no, a.title, a.contents, a.hit, a.reg_date, a.depth, b.name as userName, a.user_no as userNo
 					from board a, user b
 					where a.user_no = b.no
 					and a.title like '%${keyword }%'
@@ -28,7 +86,7 @@
 	</select>
 	
 	<!-- 게시판 총 개수 -->
-	<select id="getTotalCount" parameterType="string" resultType="integer">
+	<select id="totalCount" parameterType="string" resultType="integer">
 		<choose>
 			<when test='_parameter == null or _parameter == ""'>
 				<![CDATA[
@@ -47,71 +105,16 @@
 		</choose>
 	</select>
 	
-	<!-- 게시판 상세보기 -->
-	<select id="getContentsNo" resultType="boardvo" parameterType="long">
-		<![CDATA[
-		select a.no, a.title, a.contents, a.g_no as groupNo, a.o_no as orderNo, a.depth, a.user_no as userNo, b.name as userName
-			from board a, user b
-			where a.user_no = b.no
-			and a.no = #{no }
-		]]>
-	</select>
-	
-	<select id="getContentsNoandUserNo" resultType="boardvo" parameterType="map">
-		<![CDATA[
-		select a.no, a.title, a.contents, a.g_no as groupNo, a.o_no as orderNo, a.depth, a.user_no as userNo, b.name as userName
-			from board a, user b
-			where a.user_no = b.no
-			and a.no = #{no }
-			and user_no = #{userNo }
-		]]>
-	</select>
-	
-	<!-- 게시판글 등록하기 -->
-	<insert id="insertContents" parameterType="boardvo">
-		<![CDATA[
-		insert into board
-		values(null, #{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo })
-		]]>
-	</insert>
-	
-	<!-- max g_no 찾기 -->
-	<select id="findMaxNo" resultType="long">
-		<![CDATA[
-		select max(g_no)
-			from board
-		]]>
-	</select>
-	
-	<!-- 댓글 g_no, o_no 업데이트하기 -->
-	<update id="updateGroupNo" parameterType="map">
+	<!-- 댓글 o_no 업데이트하기 -->
+	<update id="updateOrderNo" parameterType="map">
 		<![CDATA[
 		update board
 			set o_no = o_no + 1
 			where g_no = #{groupNo }
-			and o_no > #{orderNo }
+			and o_no >= #{orderNo }
 		]]>
 	</update>
 
-	<!-- 게시판 수정하기 -->
-	<update id="updateContents" parameterType="boardvo">
-		<![CDATA[
-		update board
-			set title = #{title }, contents = #{contents }
-			where no = #{no }
-		]]>
-	</update>
-	
-	<!-- 게시글 삭제하기 -->
-	<delete id="deleteContents" parameterType="map">
-		<![CDATA[
-		delete 
-			from board 
-			where no = #{no }
-			and user_no =#{userNo }
-		]]>
-	</delete>
-	
 	<!-- 조회수 -->
 	<update id="visitCount" parameterType="long">
 		<![CDATA[

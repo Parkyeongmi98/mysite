@@ -16,4 +16,7 @@ insert into user values(null, '박영미', 'yeongmi_@naver.com', password('1234'
 select no, name from user where email='yeongmi_@naver.com' and password = password('1234');
 
 
+alter table user add column role enum("ADMIN", "USER") default "USER" after gender;
+insert into user values (null, '관리자', 'admin@mysite.com', password('1234'), 'male', "ADMIN", now());
 
+alter table user drop column role;
