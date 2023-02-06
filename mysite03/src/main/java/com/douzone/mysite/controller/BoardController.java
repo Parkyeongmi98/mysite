@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.UserVo;
@@ -77,8 +78,9 @@ public class BoardController {
 		return "redirect:/board?page=1&keyword";
 	}
 	
+	@Auth(role="USER", test=true)
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String write(@ModelAttribute BoardVo vo) {
+	public String write() {
 		return "board/write";
 	}
 	

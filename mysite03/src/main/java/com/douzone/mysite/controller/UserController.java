@@ -72,14 +72,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		// Access Controller -> 접근권한제어(회원 인증)를 위해
-		UserVo authUser = (UserVo)session.getAttribute("authUser"); // session에 있는 authUser를 가져와서 authUser에 넣어주기
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		///////////////////////////////////////////////////////////
-	
+	public String update(@AuthUser UserVo authUser, Model model) {
 		UserVo userVo = userService.getUser(authUser.getNo()); 
 		
 		model.addAttribute("userVo", userVo);
