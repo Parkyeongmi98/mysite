@@ -24,48 +24,37 @@
 					<c:choose>
 						<c:when test="${not empty authUser }">
 						<table class="tbl-ex">
-							<tr>
-								<th colspan="2">글쓰기</th>
-							</tr>
-							<tr>
-								<td class="label">제목</td>
-								<td>
-									<form:input path="title" />
-								
-									<p style="color:#f00; text-align:left; padding:0">
-										<form:errors path="title" />
-									</p>	
-								</td>
-							</tr>
-							
-							<tr>
-								<td class="label">내용</td>
-								<td>
-									<form:textarea path="contents" rows="13" cols="67" />
-									
-									<p style="color:#f00; text-align:left; padding:0">
-										<form:errors path="contents" />
-									</p>	
-								</td>
-							</tr>
-							</table>
+						<tr>
+							<th colspan="2">글쓰기</th>
+						</tr>
+						<tr>
+							<td class="label">제목</td>
+							<td><input type="text" name="title" value=""></td>
+						</tr>
+						<tr>
+							<td class="label">내용</td>
+							<td>
+								<textarea id="content" name="contents"></textarea>
+							</td>
+						</tr>
+					</table>
 						</c:when>
 						<c:otherwise>
-						<table class="tbl-ex">
-							<tr>
-								<th colspan="2">로그인 후 이용해주세요</th>
-							</tr>
-							<tr>
-								<td class="label">제목</td>
-								<td><input type="text" name="title" value=""></td>
-							</tr>
-							<tr>
-								<td class="label">내용</td>
-								<td>
-									<textarea id="content" name="contents"></textarea>
-								</td>
-							</tr>
-							</table>
+					<table class="tbl-ex">
+						<tr>
+							<th colspan="2">로그인 후 이용해주세요!</th>
+						</tr>
+						<tr>
+							<td class="label">제목</td>
+							<td><input type="text" name="title" value=""></td>
+						</tr>
+						<tr>
+							<td class="label">내용</td>
+							<td>
+								<textarea id="content" name="contents"></textarea>
+							</td>
+						</tr>
+					</table>
 						</c:otherwise>
 					</c:choose>
 					
