@@ -55,7 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if("USER".equals(role)) {
 			return true;
 		}
-		
+			
 		// 9. @Auth의 role이 "ADMIN"인 경우, authUser의 role은 반드시 "ADMIN" 이어야 한다.
 		if(!"ADMIN".equals(authUser.getRole())) {
 			response.sendRedirect(request.getContextPath());
