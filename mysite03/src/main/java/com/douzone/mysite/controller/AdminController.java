@@ -1,5 +1,7 @@
 package com.douzone.mysite.controller;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,8 @@ import com.douzone.mysite.vo.SiteVo;
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
+	private ServletContext servletContext;
+	@Autowired
 	private SiteService siteService;
 	
 	@RequestMapping("")
@@ -20,6 +24,13 @@ public class AdminController {
 		model.addAttribute("siteVo", vo);
 		
 		return "admin/main";
+	}
+	
+	@RequestMapping("/main/update")
+	public String update(SiteVo vo) {
+		//siteService.updateSite(vo);  과제
+		
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping("/guestbook")
