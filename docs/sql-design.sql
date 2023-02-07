@@ -26,6 +26,9 @@ insert into site values(null, 'MySite', '안녕하세요. 박영미의 mysite에
 select * from site;
 
 select title, welcome, profile, description from site order by no asc limit 0, 1;
+update site set title='YourSite' where no = 1;
 
+desc gallery;
+select * from gallery;
 
-
+delete from user where email = "yeongmi_@naver.com";
