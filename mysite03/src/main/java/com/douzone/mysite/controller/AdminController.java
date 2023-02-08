@@ -1,14 +1,11 @@
 package com.douzone.mysite.controller;
 
 import javax.servlet.ServletContext;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.mysite.security.Auth;
@@ -36,17 +33,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/main/update")
-	public String update(@RequestParam("title") String title,
-				@RequestParam("welcome") String welcome,
-				@RequestParam("file") MultipartFile profile,
-				@RequestParam("description") String description,
-				@ModelAttribute @Valid SiteVo vo) {
-		vo.setTitle(title);
-		vo.setWelcome(welcome);
-		vo.setDescription(description);
-		String url = fileuploadService.restore(profile);
-		vo.setProfile(url);
+	public String update(SiteVo vo, MultipartFile file) {
+		String profile = fileuploadService.restore(file);
+		if(profile != null) {
+			vo.setProfile(profile);
+		}
+		
 		siteService.updateSite(vo);
+		servletContext.setAttribute("sitevo", vo);
 		
 		return "redirect:/admin";
 	}

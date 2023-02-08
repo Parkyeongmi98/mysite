@@ -18,17 +18,17 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="${pageContext.request.contextPath }${site.profile }" style="width:100px">
+					<img id="profile" src="${pageContext.request.contextPath }${sitevo.profile }" style="width:100px">
 					<c:choose>
 						<c:when test="${not empty authUser }">
-							<h2>${site.welcome }</h2>
+							<h2>${sitevo.welcome }</h2>
 						</c:when>
 						<c:otherwise>
 							<h2>로그인 후 이용해 주세요^-^</h2>
 						</c:otherwise>
 					</c:choose>
 					<p>
-						${fn:replace(site.description, newline, "<br>") }
+						${fn:replace(sitevo.description, newline, "<br>") }
 						<br><br>
 						<a href="${pageContext.request.contextPath }/gb">방명록</a>에 글 남기기<br>
 					</p>
