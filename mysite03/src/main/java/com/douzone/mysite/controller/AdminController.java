@@ -20,8 +20,6 @@ import com.douzone.mysite.vo.SiteVo;
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
-	private ServletContext servletContext;
-	@Autowired
 	private SiteService siteService;
 	@Autowired
 	private FileuploadService fileuploadService;
@@ -45,7 +43,7 @@ public class AdminController {
 		SiteVo site = applicationContext.getBean(SiteVo.class);
 		
 		siteService.updateSite(vo);
-		servletContext.setAttribute("sitevo", vo);
+//		servletContext.setAttribute("sitevo", vo);
 //		site.setTitle(vo.getTitle());
 //		site.setProfile(vo.getProfile());
 //		site.setWelcome(vo.getWelcome());
