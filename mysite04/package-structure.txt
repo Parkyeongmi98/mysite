@@ -1,0 +1,25 @@
+[src/main/java]
+	com
+	 |--- douzone
+	 		|--- mysite
+	 				|--- config
+	 				|		|--- AppConfig.java
+	 				|		|--- WebConfig.java
+	 				|		|--- app
+	 				|			  |--- DBConfig.java
+	 				|			  |--- MyBatisConfig.java
+	 				|		|--- web
+	 				|--- controller
+	 				|--- service
+	 				|--- repository
+	 				
+	 				
+[src/main/resources]
+	com
+	 |--- douzone
+	 		|--- mysite
+	 				|--- mybatis
+	 						|--- configuration.xml
+	 						|--- mappers
+	 								|--- board.xml
+	 								|--- user.xml

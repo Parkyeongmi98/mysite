@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook">
+	<insert id="insert" parameterType="guestbookvo">
+		<![CDATA[
+		insert 
+			into guestbook 
+			values(null, #{name }, #{password }, #{message }, now())
+		]]>
+		<!-- 처음 sql문을 insert할 때 no값이 null이라서 마지막 insert PK의 no를 insert 파라미터 guestbookvo에 넣어주기 위함 -->
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteByPassword" parameterType="map">
+		<![CDATA[
+		delete from guestbook where no = #{no } and password = #{password }
+		]]>
+	</delete>
+	
+	<!-- result값 이름 설정 후 select에서 받아오기 -->
+	<resultMap id="findallList" type="guestbookvo">
+		<id property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="message" column="message" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+	
+	<select id="findAll" resultMap="findallList">
+		<![CDATA[
+		select no, name, password, message, reg_date
+			from guestbook
+			order by reg_date desc
+		]]>
+	</select>
+	
+</mapper>
