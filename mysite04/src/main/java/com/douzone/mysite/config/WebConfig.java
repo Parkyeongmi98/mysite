@@ -10,13 +10,14 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.douzone.mysite.config.web.MvcConfig;
+import com.douzone.mysite.config.web.SecurityConfig;
 import com.douzone.mysite.event.ApplicationContextEventListener;
 import com.douzone.mysite.interceptor.SiteInterceptor;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"com.douzone.mysite.controller"})
-@Import({MvcConfig.class})
+@Import({MvcConfig.class, SecurityConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 	
 	// site Inteceptor
