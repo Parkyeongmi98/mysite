@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+//Spring-Servlet bean설정들
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
@@ -36,7 +37,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		return viewResolver;
 	}
 	
-	// Message Converter
+	// Message Converters
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
 		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();

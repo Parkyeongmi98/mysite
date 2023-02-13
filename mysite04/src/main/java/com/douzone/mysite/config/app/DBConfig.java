@@ -6,8 +6,11 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//ApplicationContext bean설정들
 @Configuration
 public class DBConfig {
+	
+	// DataSource(mariadb connection)
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();

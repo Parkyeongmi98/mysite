@@ -14,6 +14,7 @@ import com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver;
 import com.douzone.mysite.security.LoginInterceptor;
 import com.douzone.mysite.security.LogoutInterceptor;
 
+//Spring-Servlet bean설정들
 @Configuration
 public class SecurityConfig implements WebMvcConfigurer {
 	

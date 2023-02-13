@@ -14,12 +14,17 @@ import com.douzone.mysite.config.web.SecurityConfig;
 import com.douzone.mysite.event.ApplicationContextEventListener;
 import com.douzone.mysite.interceptor.SiteInterceptor;
 
+// Spring-Servlet bean설정들
 @Configuration
+// auto proxy
 @EnableAspectJAutoProxy
+// component-scan
 @ComponentScan({"com.douzone.mysite.controller"})
+// Import 받기
 @Import({MvcConfig.class, SecurityConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 	
+	// 남는 설정들 모아두기
 	// site Inteceptor
 	@Bean
 	public HandlerInterceptor siteInterceptor() {
