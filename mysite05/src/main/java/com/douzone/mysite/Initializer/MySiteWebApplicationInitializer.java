@@ -28,7 +28,7 @@ public class MySiteWebApplicationInitializer extends AbstractAnnotationConfigDis
 
 	@Override
 	protected String[] getServletMappings() {
-		// Filter-mapping
+		// Dispatcher Servlet Mapping
 		return new String[] {"/"};
 	}
 
