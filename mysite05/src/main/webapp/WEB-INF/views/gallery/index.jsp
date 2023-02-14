@@ -57,10 +57,10 @@ $(function(){
 				<ul>				
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<li>
-							<a	href="${pageContext.request.contextPath }/${vo.url }"
+							<a	href="${pageContext.request.contextPath }${vo.url }"
 								data-lightbox="gallery"
 								class="image"
-								style="background-image:url('${pageContext.request.contextPath }/${vo.url }')">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }${vo.url }')">&nbsp;</a>
 							<c:if test="${not empty authUser && authUser.role == 'ADMIN' }">	
 								<a	href="${pageContext.request.contextPath }/gallery/delete/${vo.no }"
 									class="del-button"
