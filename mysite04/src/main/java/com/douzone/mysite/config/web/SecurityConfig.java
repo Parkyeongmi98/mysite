@@ -14,7 +14,7 @@ import com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver;
 import com.douzone.mysite.security.LoginInterceptor;
 import com.douzone.mysite.security.LogoutInterceptor;
 
-//Spring-Servlet bean설정들
+// Spring-Servlet bean설정들
 @Configuration
 public class SecurityConfig implements WebMvcConfigurer {
 	
@@ -49,18 +49,16 @@ public class SecurityConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
 			.addInterceptor(loginInterceptor())
-			.addPathPatterns("user/auth");
+			.addPathPatterns("/user/auth");
 		
 		registry
 			.addInterceptor(logoutInterceptor())
-			.addPathPatterns("user/logout");
+			.addPathPatterns("/user/logout");
 		
 		registry
 			.addInterceptor(authInterceptor())
 			.addPathPatterns("/**")
-			.excludePathPatterns("/user/auth")
-			.excludePathPatterns("/user/logout")
-			.excludePathPatterns("/assets/**");
+			.excludePathPatterns("/user/auth", "/user/logout", "/assets/**");
 	}
 	
 }

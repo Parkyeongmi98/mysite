@@ -18,7 +18,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="${pageContext.request.contextPath }${site.profile }" style="width:100px">
+					<img id="profile" src="${pageContext.request.contextPath }${sitevo.profile }" style="width:100px">
 					<c:choose>
 						<c:when test="${not empty authUser }">
 							<h2>${sitevo.welcome }</h2>

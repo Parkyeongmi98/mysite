@@ -15,10 +15,10 @@
     </typeAliases>
     
 	<mappers>
-		<mapper resource="com/douzone/mysite/mybatis/mappers/user.xml" />
-		<mapper resource="com/douzone/mysite/mybatis/mappers/guestbook.xml" />
-		<mapper resource="com/douzone/mysite/mybatis/mappers/board.xml" />
-		<mapper resource="com/douzone/mysite/mybatis/mappers/site.xml" />
-		<mapper resource="com/douzone/mysite/mybatis/mappers/gallery.xml" />		
+		<mapper resource="com/douzone/mysite/app/mybatis/mappers/user.xml" />
+		<mapper resource="com/douzone/mysite/app/mybatis/mappers/guestbook.xml" />
+		<mapper resource="com/douzone/mysite/app/mybatis/mappers/board.xml" />
+		<mapper resource="com/douzone/mysite/app/mybatis/mappers/site.xml" />
+		<mapper resource="com/douzone/mysite/app/mybatis/mappers/gallery.xml" />		
 	</mappers>
 </configuration>

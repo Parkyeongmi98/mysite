@@ -6,7 +6,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//ApplicationContext bean설정들
+// ApplicationContext bean설정들
 @Configuration
 public class DBConfig {
 	
