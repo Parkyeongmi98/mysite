@@ -30,6 +30,7 @@
 	 				|					  |--- board.xml
 	 				|				  	  |--- user.xml
 	 				|--- web
+	 					  |--- fileupload.properties
 	 					  |--- messages
 	 					  		  |--- messages_ko.properties
 	 					  		  |--- messages_en.properties
