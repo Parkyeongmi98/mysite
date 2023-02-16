@@ -1,0 +1,13 @@
+# Spring Configuration
+spring:
+   application:
+      name: mysite
+   # devtools - live reload
+   devtools:
+      livereload:
+         enabled: true
+
+
+# server
+server:
+   port: 9090
