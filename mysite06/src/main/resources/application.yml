@@ -2,12 +2,78 @@
 spring:
    application:
       name: mysite
+
    # devtools - live reload
    devtools:
       livereload:
          enabled: true
 
+   # mvc
+   mvc:
+      static-path-pattern: /assets/**
+      throw-exception-if-no-handler-found: true
+      view:
+         prefix: /WEB-INF/views/
+         suffix: .jsp
+   web:
+      resources:
+         static-location: classpath:/assets/, file:/mysite-uploads/
 
+   # multipart
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 10MB
+         max-request-size: 50MB
+   
+   # message resources(internationalization, i18n)
+   messages:
+      always-message-format: true
+      basename: web/messages_ko
+      encoding: utf-8
+   
+   # Auto Proxy
+   aop:
+      auto: true
+      proxy-target-class: true
+   
+   # Datasource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.10.121:3307/webdb?charset=utf8
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+# Mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+   
 # server
 server:
    port: 9090
+   servlet:
+      context-path: /mysite06
+      encoding:
+         charset: utf-8
+         enabled: true
+         
+# logging
+logging:
+   pattern:
+      file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+      console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+   logback:
+      rollingpolicy:
+         file-name-pattern: /${spring.application.name}-logs/exception.%d{yyyy-MM-dd}.%i.log.zip
+         max-file-size: 200MB
+         max-history: 10
+   file: /${spring.application.name}-logs/exception.log
+   level:
+      root: WARN
+      com:
+         douzone:
+            mysite:
+               exception: ERROR   
