@@ -14,6 +14,7 @@ public class EncodingFliter extends HttpFilter implements Filter {
 	private String encoding;
 	
 	public void init(FilterConfig fConfig) throws ServletException {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		fConfig.getInitParameter("encoding");
 		if(encoding == null) {
 			encoding = "utf-8";
