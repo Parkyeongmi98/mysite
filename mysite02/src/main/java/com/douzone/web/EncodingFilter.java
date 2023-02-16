@@ -7,10 +7,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpFilter;
 
-public class EncodingFilter extends HttpFilter implements Filter {
-	private static final long serialVersionUID = 1L;
+public class EncodingFilter implements Filter {
 	private String encoding;
 	
 	public void init(FilterConfig fConfig) throws ServletException {
