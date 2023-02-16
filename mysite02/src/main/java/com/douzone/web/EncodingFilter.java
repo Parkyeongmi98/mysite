@@ -7,13 +7,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpFilter;
 
-public class EncodingFilter implements Filter {
+public class EncodingFilter extends HttpFilter implements Filter {
+	private static final long serialVersionUID = 1L;
 	private String encoding;
 	
 	public void init(FilterConfig fConfig) throws ServletException {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		fConfig.getInitParameter("encoding");
+		encoding = fConfig.getInitParameter("encoding");
 		if(encoding == null) {
 			encoding = "utf-8";
 		}
