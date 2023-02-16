@@ -14,7 +14,7 @@ import com.douzone.mysite.exception.FileuploadServiceException;
 @Service
 public class FileuploadService {
 	private final static String SAVE_PATH = "/mysite-uploads/upload-images";
-	private final static String URL_PATH = "/asstes/upload-images";
+	private final static String URL_PATH = "/assets/upload-images";
 	
 	public String restore(MultipartFile file) {	
 		String url = null;
@@ -32,11 +32,11 @@ public class FileuploadService {
 			String originFilename = file.getOriginalFilename();
 			String extName = originFilename.substring(originFilename.lastIndexOf(".")+1);
 			String saveFilename = generateSaveFilename(extName);
-			Long fileSize = file.getSize();
+//			Long fileSize = file.getSize();
 			
-			System.out.println("##########" + originFilename);
-			System.out.println("##########" + saveFilename);
-			System.out.println("##########" + fileSize);
+//			System.out.println("##########" + originFilename);
+//			System.out.println("##########" + saveFilename);
+//			System.out.println("##########" + fileSize);
 			
 			byte[] data = file.getBytes();
 			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + saveFilename);
